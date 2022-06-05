@@ -1,28 +1,25 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-    kotlin("jvm")
-//    kotlin("jvm") version "1.6.21"
-    application
-    id("com.github.johnrengelman.shadow") version "5.0.0"
-    id("org.flywaydb.flyway") version "5.2.4"
+    id "org.jetbrains.kotlin.jvm" //org.jetbrains.kotlin.multiplatform
+//    id "org.jetbrains.kotlin.jvm" version "1.6.21"
+    id "application"
+    id "com.github.johnrengelman.shadow" version "5.0.0"
+    id "org.flywaydb.flyway" version "5.2.4"
 }
 
-val ktorVersion: String by project
-val kotlinExposedVersion: String by project
-val sqliteJdbcVersion: String by project
-val logbackVersion: String by project
-val flywayVersion: String by project
+def ktorVersion =this.project.property("ktorVersion")
+def kotlinExposedVersion=this.project.property("kotlinExposedVersion")
+def sqliteJdbcVersion=this.project.property("sqliteJdbcVersion")
+def logbackVersion=this.project.property("logbackVersion")
+def flywayVersion=this.project.property("flywayVersion")
 
 repositories {
     gradlePluginPortal()
     mavenCentral()
     google()
-    maven(
+    maven {
         // Only required if using EAP releases
         url = "https://maven.pkg.jetbrains.space/public/p/ktor/eap"
-    )
+    }
 }
 
 group = "samgarasx"
@@ -30,27 +27,30 @@ version = "0.1.0"
 
 application {
     mainClassName = "ktorwebapi.ServerKt"
+//    project.setProperty("mainClassName", "ktorwebapi.ServerKt")
 }
 
-tasks.withType<ShadowJar> {
+tasks.named('shadowJar') {
     setProperty("archiveBaseName", project.name)
     setProperty("archiveVersion", project.version)
     setProperty("archiveClassifier", null)
 }
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+// https://stackoverflow.com/questions/41113268/how-to-set-up-kotlins-byte-code-version-in-gradle-project-to-java-8
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
+// https://josdem.io/techtalk/spring/spring_boot_flyway/
+// https://showme.codes/2020-09-06/db-versioning/
 flyway {
-    configFiles = arrayOf("db/flyway.conf")
-    locations = arrayOf("filesystem:db/migrations")
+    configFiles += "db/flyway.conf"
+    locations += "filesystem:db/migrations"
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-
-
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21"
     //Ref  : https://ktor.io/docs/migrating-2.html#server-package
     implementation("io.ktor:ktor-server-call-logging:$ktorVersion")
     implementation("io.ktor:ktor-server-auto-head-response:$ktorVersion")
