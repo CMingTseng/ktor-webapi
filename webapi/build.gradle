@@ -3,11 +3,11 @@ apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'org.flywaydb.flyway'
 
-def ktorVersion =this.project.property("ktor_version")
-def kotlinExposedVersion=this.project.property("kotlin_Exposed_version")
-def sqliteJdbcVersion=this.project.property("sqliteJdbc_version")
-def logbackVersion=this.project.property("logback_version")
-def flywayVersion=this.project.property("flyway_version")
+def ktorVersion = ext.ktor_version
+def kotlinExposedVersion=ext.kotlin_Exposed_version
+def sqliteJdbcVersion=ext.sqliteJdbc_version
+def logbackVersion=ext.logback_version
+def flywayVersion=ext.flyway_version
 
 group = "samgarasx"
 version = "0.1.0"
@@ -39,7 +39,7 @@ flyway {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     //Ref  : https://ktor.io/docs/migrating-2.html#server-package
     implementation("io.ktor:ktor-server-call-logging:$ktorVersion")
     implementation("io.ktor:ktor-server-auto-head-response:$ktorVersion")
