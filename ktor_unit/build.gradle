@@ -1,5 +1,5 @@
 apply plugin: 'org.jetbrains.kotlin.jvm'
-apply plugin: 'application'
+apply plugin: 'java-library'
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'org.flywaydb.flyway'
 
@@ -9,13 +9,8 @@ def sqliteJdbcVersion=ext.sqliteJdbc_version
 def logbackVersion=ext.logback_version
 def flywayVersion=ext.flyway_version
 
-group = "samgarasx"
+group = "samgarasx.unit"
 version = "0.1.0"
-
-application {
-    mainClassName = "ktorwebapi.ServerKt"
-//    project.setProperty("mainClassName", "ktorwebapi.ServerKt")
-}
 
 tasks.named('shadowJar') {
     setProperty("archiveBaseName", project.name)
@@ -29,13 +24,6 @@ compileKotlin {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
-}
-
-// https://josdem.io/techtalk/spring/spring_boot_flyway/
-// https://showme.codes/2020-09-06/db-versioning/
-flyway {
-    configFiles += "db/flyway.conf"
-    locations += "filesystem:db/migrations"
 }
 
 dependencies {
@@ -66,6 +54,4 @@ dependencies {
     implementation("org.xerial:sqlite-jdbc:$sqliteJdbcVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("org.flywaydb:flyway-core:$flywayVersion")
-
-    implementation project(path: ':ktor_unit')
 }
