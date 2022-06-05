@@ -50,72 +50,7 @@ allprojects {
     }
 }
 
-apply plugin: 'org.jetbrains.kotlin.jvm'
-apply plugin: 'application'
-apply plugin: 'com.github.johnrengelman.shadow'
-apply plugin: 'org.flywaydb.flyway'
-
-def ktorVersion =this.project.property("ktor_version")
-def kotlinExposedVersion=this.project.property("kotlin_Exposed_version")
-def sqliteJdbcVersion=this.project.property("sqliteJdbc_version")
-def logbackVersion=this.project.property("logback_version")
-def flywayVersion=this.project.property("flyway_version")
-
-group = "samgarasx"
-version = "0.1.0"
-
-application {
-    mainClassName = "ktorwebapi.ServerKt"
-//    project.setProperty("mainClassName", "ktorwebapi.ServerKt")
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
 
-tasks.named('shadowJar') {
-    setProperty("archiveBaseName", project.name)
-    setProperty("archiveVersion", project.version)
-    setProperty("archiveClassifier", null)
-}
-// https://stackoverflow.com/questions/41113268/how-to-set-up-kotlins-byte-code-version-in-gradle-project-to-java-8
-compileKotlin {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
-}
-
-// https://josdem.io/techtalk/spring/spring_boot_flyway/
-// https://showme.codes/2020-09-06/db-versioning/
-flyway {
-    configFiles += "db/flyway.conf"
-    locations += "filesystem:db/migrations"
-}
-
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21"
-    //Ref  : https://ktor.io/docs/migrating-2.html#server-package
-    implementation("io.ktor:ktor-server-call-logging:$ktorVersion")
-    implementation("io.ktor:ktor-server-auto-head-response:$ktorVersion")
-    implementation("io.ktor:ktor-server-status-pages:$ktorVersion")
-    implementation("io.ktor:ktor-server-call-id:$ktorVersion")
-    implementation("io.ktor:ktor-server-double-receive:$ktorVersion")
-    implementation("io.ktor:ktor-server-data-conversion:$ktorVersion")
-    implementation("io.ktor:ktor-server-default-headers:$ktorVersion")
-    implementation("io.ktor:ktor-server-compression:$ktorVersion")
-    implementation("io.ktor:ktor-server-caching-headers:$ktorVersion")
-    implementation("io.ktor:ktor-server-conditional-headers:$ktorVersion")
-    implementation("io.ktor:ktor-server-cors:$ktorVersion")
-    implementation("io.ktor:ktor-server-hsts:$ktorVersion")
-    implementation("io.ktor:ktor-server-http-redirect:$ktorVersion")
-    implementation("io.ktor:ktor-server-partial-content:$ktorVersion")
-    implementation("io.ktor:ktor-server-sessions:$ktorVersion")
-
-    implementation("io.ktor:ktor-server-netty:$ktorVersion")
-    implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
-    implementation("io.ktor:ktor-serialization-gson:$ktorVersion")
-    implementation("org.jetbrains.exposed:exposed-core:$kotlinExposedVersion")
-    implementation("org.jetbrains.exposed:exposed-dao:$kotlinExposedVersion")
-    implementation("org.jetbrains.exposed:exposed-jdbc:$kotlinExposedVersion")
-    implementation("org.xerial:sqlite-jdbc:$sqliteJdbcVersion")
-    implementation("ch.qos.logback:logback-classic:$logbackVersion")
-    implementation("org.flywaydb:flyway-core:$flywayVersion")
-}
