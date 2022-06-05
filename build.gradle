@@ -43,6 +43,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
+        classpath "com.android.tools.build:gradle:$android_gradle_plugin_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.github.jengelman.gradle.plugins:shadow:$shadow_version"
         classpath "gradle.plugin.com.boxfuse.client:gradle-plugin-publishing:$flyway_version"
