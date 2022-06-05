@@ -12,16 +12,6 @@ def sqliteJdbcVersion=this.project.property("sqliteJdbcVersion")
 def logbackVersion=this.project.property("logbackVersion")
 def flywayVersion=this.project.property("flywayVersion")
 
-repositories {
-    gradlePluginPortal()
-    mavenCentral()
-    google()
-    maven {
-        // Only required if using EAP releases
-        url = "https://maven.pkg.jetbrains.space/public/p/ktor/eap"
-    }
-}
-
 group = "samgarasx"
 version = "0.1.0"
 
