@@ -1,9 +1,6 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-group = "samgarasx"
-version = "0.1.0"
-
 plugins {
     kotlin("jvm")
 //    kotlin("jvm") version "1.6.21"
@@ -27,6 +24,9 @@ repositories {
         url = "https://maven.pkg.jetbrains.space/public/p/ktor/eap"
     )
 }
+
+group = "samgarasx"
+version = "0.1.0"
 
 application {
     mainClassName = "ktorwebapi.ServerKt"
