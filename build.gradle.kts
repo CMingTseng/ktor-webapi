@@ -6,6 +6,7 @@ version = "0.1.0"
 
 plugins {
     kotlin("jvm")
+//    kotlin("jvm") version "1.6.21"
     application
     id("com.github.johnrengelman.shadow") version "5.0.0"
     id("org.flywaydb.flyway") version "5.2.4"

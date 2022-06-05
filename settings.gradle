@@ -1,0 +1,36 @@
+pluginManagement {
+//https://juejin.cn/post/7075671230468063239
+//https://detekt.dev/docs/introduction/snapshots/
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        maven {
+            // Only required if using EAP releases
+            url = "https://maven.pkg.jetbrains.space/public/p/ktor/eap"
+        }
+        maven {
+            url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+        }
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id.startsWith("org.jetbrains.kotlin") || requested.id.id == "org.jetbrains.kotlin" || requested.id.namespace == "org.jetbrains.kotlin" || requested.id.id == "kotlin-multiplatform" || requested.id.id == "org.jetbrains.kotlin.multiplatform"||requested.id.id == "kotlin-dce-js") {
+                useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21")
+//                useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:${requested.version}")//requested.version is define at subproject
+            }
+            if (requested.id.id == 'dagger.hilt.android.plugin') {
+                useModule("com.google.dagger:hilt-android-gradle-plugin:${hiltVersion}")
+            }
+        }
+    }
+    plugins {
+//        id("org.gradle.kotlin.kotlin-dsl") version '2.2.0' apply(false)
+        id 'com.android.application' version "7.0.4" apply(false)
+        id 'com.android.library' version "7.0.4" apply(false)
+        id 'org.jetbrains.kotlin.android' version "1.6.21" apply(false)
+        id 'org.jetbrains.kotlin.kapt' version "1.6.21"  apply(false)
+    }
+}
+
+rootProject.name = "ktor-webapi"
