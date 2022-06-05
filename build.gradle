@@ -36,7 +36,9 @@ tasks.named('shadowJar') {
     setProperty("archiveClassifier", null)
 }
 // https://stackoverflow.com/questions/41113268/how-to-set-up-kotlins-byte-code-version-in-gradle-project-to-java-8
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+compileKotlin {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
